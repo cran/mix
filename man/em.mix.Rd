@@ -9,7 +9,7 @@ EM Algorithm for Unrestricted General Location Model
   dataset.
 }
 \usage{
-em.mix(s, start, prior=1, maxits=1000, showits=T, eps=0.0001)
+em.mix(s, start, prior=1, maxits=1000, showits=TRUE, eps=0.0001)
 }
 \arguments{
 \item{s}{

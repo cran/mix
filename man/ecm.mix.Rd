@@ -9,7 +9,7 @@ general location model from an incomplete mixed dataset.
 }
 \usage{
 ecm.mix(s, margins, design, start, prior=1, maxits=1000, 
-        showits=T, eps=0.0001)
+        showits=TRUE, eps=0.0001)
 }
 \arguments{
 \item{s}{
