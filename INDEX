@@ -1,0 +1,19 @@
+da.mix                  Data Augmentation for Unrestricted General
+                        Location Model
+dabipf.mix              Data Augmentation/Bayesian IPF Algorithm for
+                        Restricted General Location Models
+ecm.mix                 ECM Algorithm for Restricted General Location
+                        Model
+em.mix                  EM Algorithm for Unrestricted General Location
+                        Model
+getparam.mix            Present Parameters of General Location Model
+                        in an Understandable Format
+imp.mix                 Impute Missing Data Under General Location
+                        Model
+loglik.mix              Loglikelihood for Incomplete Data under the
+                        General Location Model
+mi.inference            Multiple Imputation Inference
+prelim.mix              Preliminary Manipulations on Matrix of
+                        Incomplete Mixed Data
+rngseed                 Initialize Random Number Generator Seed
+stlouis                 St. Louis Risk Research Project
