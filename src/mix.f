@@ -461,7 +461,7 @@ C Converts t1, t2, t3 to draws from the complete-data posterior.
 C If the observed count for any non-structural zero cell is zero, the
 C posterior is not proper and err is set to 1.
         integer q,psi(q,q),npsi,ncells,p,mcz(q),n,m
-        double precision junk
+        double precision err,junk
         double precision t1(npsi),t2(q,ncells),t3(ncells),df
         double precision prior(ncells),zz(q),sum,mx(q,q),chf(npsi)
         junk=dble(gauss())
