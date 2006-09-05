@@ -4,7 +4,7 @@
 rngseed <- function(seed)
 {
     seed <- as.integer(seed)
-    if(seed<=0)stop("Seed must be a positive integer")
+    if(seed<=0)stop("'seed' must be a positive integer")
     tmp <- .Fortran("rngs",seed, PACKAGE="mix")
     invisible()
 }
@@ -154,7 +154,7 @@ em.mix <- function(s,start,prior=1,maxits=1000,showits=TRUE,eps=.0001)
             warning("Starting value on the boundary")}
         if(any(!w)){
             if(any(pii[!w]!=0)){
-                stop("Starting value has nonzero elements for structural zeros")}}}
+                stop("starting value has nonzero elements for structural zeros")}}}
     converged <- FALSE; it <- 0
     if(showits) cat(paste("Steps of EM:","\n"))
     t1 <- sigma; t2 <- mu; t3 <- pii
