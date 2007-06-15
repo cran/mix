@@ -36,6 +36,7 @@ rngseed <- function(seed)
 #  assumed to be continuous.
 prelim.mix <- function(x,p)
 {
+    x <- as.matrix(x)
 # get dimensions of x, separate into w and z
     n <- nrow(x); p <- as.integer(p); q <- as.integer(ncol(x)-p)
     w <- x[,(1:p)]; storage.mode(w) <- "integer"

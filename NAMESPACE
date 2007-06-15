@@ -1,0 +1,4 @@
+useDynLib(mix)
+
+export(da.mix, dabipf.mix, ecm.mix, em.mix, getparam.mix, imp.mix,
+       loglik.mix, mi.inference, prelim.mix, rngseed)
