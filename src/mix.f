@@ -2,7 +2,7 @@ C***********************************************************************
 	subroutine ctrsc(x,n,p,xbar,sdv,mvcode)
 C Centers and scales the data matrix so that the observed data in every
 C column have mean zero and variance one. If a column has zero variance
-C or less than 2 observations then the data are centered (set equal 
+C or less than 2 observations then the data are centered (set equal
 C to zero)
 	integer n,p,count
         double precision x(n,p),mvcode
@@ -15,24 +15,24 @@ C to zero)
               if(x(i,j).ne.mvcode) then
                  count=count+1
                  sum1=sum1+x(i,j)
-                 sum2=sum2+x(i,j)**2.
+                 sum2=sum2+x(i,j)**2
               endif
 5	   continue
            if(count.gt.0) then
               xbar(j)=sum1/count
-              sdv(j)=sqrt((sum2-(sum1**2.)/count)/count)
+              sdv(j)=sqrt((sum2-(sum1**2)/count)/count)
               do 7 i=1,n
                  if(x(i,j).ne.mvcode) x(i,j)=x(i,j)-xbar(j)
 7             continue
-              if(sdv(j).gt.0.) then
+              if(sdv(j).gt.0.d0) then
                  do 9 i=1,n
                     if(x(i,j).ne.mvcode) x(i,j)=x(i,j)/sdv(j)
 9                continue
-               else 
-                 sdv(j)=1.
+               else
+                 sdv(j)=1.d0
               endif
            else
-              sdv(j)=1.
+              sdv(j)=1.d0
            endif
 10	continue
 	return
@@ -58,8 +58,8 @@ C***********************************************************************
         subroutine swpm(q,psi,npsi,sigma,ncells,mu,p,pivot,
      /     submat,dir,what)
 C Performs sweep on parameters of mixed normal-categorical model.
-C Sweeps on pivot position. Sweeps only the (1:submat,1:submat) 
-C submatrix. If dir=1, performs ordinary sweep. If dir=-1, performs 
+C Sweeps on pivot position. Sweeps only the (1:submat,1:submat)
+C submatrix. If dir=1, performs ordinary sweep. If dir=-1, performs
 C reverse sweep. Skips over any structural zero cells having
 C a value in p of -999.0. If what=1, does full sweep. If what=0,
 C sweeps only sigma. If what=2, sweeps only sigma and mu.
@@ -67,13 +67,13 @@ C sweeps only sigma. If what=2, sweeps only sigma and mu.
         integer what
         double precision sigma(npsi),mu(q,ncells),p(ncells),a,b,c
         a=sigma(psi(pivot,pivot))
-        sigma(psi(pivot,pivot))=-1./a
+        sigma(psi(pivot,pivot))=-1.d0/a
         do 10 j=1,submat
            if(j.ne.pivot)sigma(psi(j,pivot))=sigma(psi(j,pivot))/a*dir
 10      continue
         if(what.ge.1)then
         do 11 j=1,ncells
-           if(p(j).ne.-999.0) mu(pivot,j)=mu(pivot,j)/a*dir
+           if(p(j).ne.-999.0d0) mu(pivot,j)=mu(pivot,j)/a*dir
 11      continue
         endif
         do 30 i=1,submat
@@ -87,7 +87,7 @@ C sweeps only sigma. If what=2, sweeps only sigma and mu.
 20            continue
               if(what.ge.1)then
               do 21 j=1,ncells
-                 if(p(j).ne.-999.0)then
+                 if(p(j).ne.-999.0d0)then
                     c=mu(pivot,j)
                     mu(i,j)=mu(i,j)-a*b*c
                  endif
@@ -97,7 +97,7 @@ C sweeps only sigma. If what=2, sweeps only sigma and mu.
 30      continue
         if(what.eq.1)then
         do 40 j=1,ncells
-           if(p(j).ne.-999.0)then
+           if(p(j).ne.-999.0d0)then
               c=mu(pivot,j)
               p(j)=p(j)-a*c*c
            endif
@@ -126,7 +126,7 @@ C***********************************************************************
      /    rz,mdpzgrp,npattw,p,rw,mdpwgrp,ngrp,mobs,mobsst,
      /    nmobs,n,z,ocw,ocz)
 C Tabulates the known part of the sufficient stats for all missingness
-C patterns. 
+C patterns.
         integer q,p,psi(q,q),npsi,ncells,npattz,rz(npattz,q)
         integer mdpzgrp(npattz),npattw,rw(npattw,p)
         integer mdpwgrp(npattw),ngrp
@@ -255,9 +255,9 @@ C takes 2*log of cell probs, and sets zero cells to -999.0.
         double precision pii(ncells)
         do 1 i=1,ncells
            if(pii(i).gt.0)then
-              pii(i)=2.*log(pii(i))
+              pii(i)=2.d0*log(pii(i))
            elseif(pii(i).eq.0)then
-              pii(i)=-999.0
+              pii(i)=-999.0d0
            endif
 1       continue
         return
@@ -322,12 +322,12 @@ C converts t1, t2, t3 to ML estimates
               do 10 m=1,ncells
                  if(t3(m).ne.0) sum=sum+t2(j,m)*t2(k,m)/t3(m)
 10            continue
-              t1(psi(j,k))=(t1(psi(j,k))-sum)/dfloat(n)
+              t1(psi(j,k))=(t1(psi(j,k))-sum)/dble(n)
 20         continue
 30      continue
-	sum=dfloat(0)
+	sum=0d0
         do 50 m=1,ncells
-	   if(prior(m).ne.-999.0) sum=sum+t3(m)+prior(m)-dfloat(1)
+	   if(prior(m).ne.-999.0d0) sum=sum+t3(m)+prior(m)-1d0
            if(t3(m).ne.0)then
               do 40 j=1,q
                  t2(j,m)=t2(j,m)/t3(m)
@@ -335,7 +335,7 @@ C converts t1, t2, t3 to ML estimates
            endif
 50      continue
 	do 60 m=1,ncells
-	   if(prior(m).ne.-999.0) t3(m)=(t3(m)+prior(m)-dfloat(1))/sum
+	   if(prior(m).ne.-999.0d0) t3(m)=(t3(m)+prior(m)-1d0)/sum
  60	continue
         return
         end
@@ -406,7 +406,7 @@ C Draws missing data for unit i and increments sufficient statistics.
               call gtmmis(p,c,mcw,nmcw,jmp,mmis)
            endif
            m=mobs+mmis
-           if(theta(m).ne.-999.0)then
+           if(theta(m).ne.-999.0d0)then
               sum1=sum1+theta(m)
               if((sum1.ge.u).or.(a.eq.dmis))then
                  if(nmcw.gt.0) t3(m)=t3(m)+1.0d0
@@ -466,23 +466,23 @@ C posterior is not proper and err is set to 1.
         double precision prior(ncells),zz(q),sum,mx(q,q),chf(npsi)
         junk=dble(gauss())
         err=0
-        df=dfloat(n)
+        df=dble(n)
         do 1 m=1,ncells
-           if(prior(m).ne.-999.0)then
-              if(t3(m).le.dfloat(0))then
+           if(prior(m).ne.-999.0d0)then
+              if(t3(m).le.0d0)then
                  err=1
                  goto 200
               else
-                 df=df-dfloat(1)
+                 df=df-1d0
               endif
            endif
  1      continue
 C calculate least-squares quantities
         do 30 j=1,q
            do 20 k=j,q
-              sum=dfloat(0)
+              sum=0d0
               do 10 m=1,ncells
-                 if(prior(m).ne.-999.0)then
+                 if(prior(m).ne.-999.0d0)then
                     sum=sum+t2(j,m)*t2(k,m)/t3(m)
                  endif
  10           continue
@@ -490,7 +490,7 @@ C calculate least-squares quantities
  20        continue
  30     continue
         do 50 m=1,ncells
-           if(prior(m).ne.-999.0)then
+           if(prior(m).ne.-999.0d0)then
               do 40 j=1,q
                  t2(j,m)=t2(j,m)/t3(m)
  40           continue
@@ -505,12 +505,12 @@ C draw mu and sigma
         call invtrm(npsi,chf,q,psi)
         call mmnm(npsi,chf,t1,q,psi,mx)
         do 80 m=1,ncells
-           if(prior(m).ne.-999.0)then
+           if(prior(m).ne.-999.0d0)then
               do 58 k=1,q
                  zz(k)=dble(gauss())
  58           continue
               do 70 i=1,q
-                 sum=dfloat(0)
+                 sum=0d0
                  do 60 k=1,q
                     sum=sum+mx(k,i)*zz(k)
  60              continue
@@ -520,7 +520,7 @@ C draw mu and sigma
  80     continue
         do 100 i=1,q
            do 90 j=i,q
-              sum=dfloat(0)
+              sum=0d0
               do 85 k=1,q
                  sum=sum+mx(k,i)*mx(k,j)
  85           continue
@@ -528,12 +528,12 @@ C draw mu and sigma
  90        continue
  100    continue
 C draw cell probs
-        sum=dfloat(0)
+        sum=0d0
         do 105 m=1,ncells
-           if(prior(m).eq.-999.0)then
-              t3(m)=dfloat(0)
+           if(prior(m).eq.-999.0d0)then
+              t3(m)=0d0
            else
-              df=df-dfloat(1)
+              df=df-1d0
               t3(m)=dble(gamm(sngl(t3(m)+prior(m))))
               sum=sum+t3(m)
            endif
@@ -555,7 +555,7 @@ C***********************************************************************
 C calculate least-squares quantities
         do 30 j=1,r
            do 20 k=j,r
-              sum=dfloat(0)
+              sum=0d0
               do 10 m=1,ncells
                  sum=sum+design(m,j)*design(m,k)*t3(m)
 10            continue
@@ -565,14 +565,14 @@ C calculate least-squares quantities
         call invsym(r,psir,npsir,wk,mcr)
         do 100 h=1,r
            do 60 mi=1,ncells
-              sum=dfloat(0)
+              sum=0d0
               do 50 j=1,r
                  sum=sum+wk(psir(h,j))*design(mi,j)
 50            continue
               wkd(mi)=sum
 60         continue
            do 90 k=1,q
-              sum=dfloat(0)
+              sum=0d0
               do 80 mi=1,ncells
                  sum=sum+wkd(mi)*t2(k,mi)
 80            continue
@@ -581,24 +581,24 @@ C calculate least-squares quantities
 100     continue
         do 150 j=1,q
            do 110 h=1,r
-              sum=dfloat(0)
+              sum=0d0
               do 105 m=1,ncells
                  sum=sum+t2(j,m)*design(m,h)
 105           continue
               wkr(h)=sum
 110        continue
            do 140 k=j,q
-              sum=dfloat(0)
+              sum=0d0
               do 120 h=1,r
                  sum=sum+wkr(h)*beta(h,k)
 120           continue
-              sigma(psi(j,k))=(t1(psi(j,k))-sum)/dfloat(n)
+              sigma(psi(j,k))=(t1(psi(j,k))-sum)/dble(n)
 140        continue
 150     continue
 C calculate mu from beta
         do 300 m=1,ncells
            do 240 j=1,q
-              sum=dfloat(0)
+              sum=0d0
               do 235 i=1,r
                  sum=sum+design(m,i)*beta(i,j)
 235           continue
@@ -635,7 +635,7 @@ C***********************************************************************
 10	  continue
 	  theta(psi(mc(i),mc(i)))=sqrt(theta(psi(mc(i),mc(i)))-tmp)
 	  do 30 j=i+1,nmc
-	    tmp=0.
+	    tmp=0.d0
 	    do 20 k=1,i-1
 	      tmp=tmp+theta(psi(mc(k),mc(i)))*theta(psi(mc(k),mc(j)))
 20	    continue
@@ -649,7 +649,7 @@ C***********************************************************************
 C Inverts triangular matrix in packed storage
         integer npsi,q,psi(q,q)
         double precision t(npsi),sum
-        t(psi(1,1))=1./t(psi(1,1))
+        t(psi(1,1))=1.d0/t(psi(1,1))
         do 10 k=2,q
            t(psi(k,k))=1.0d0/t(psi(k,k))
            do 5 j=1,k-1
@@ -674,7 +674,7 @@ C inverts symmetric matrix in packed storage
         call invtrm(npsi,mat,q,psi)
         do 4 j=1,q
            do 3 k=1,j
-              sum=dfloat(0)
+              sum=0d0
               do 2 i=j,q
                  sum=sum+mat(psi(i,j))*mat(psi(i,k))
 2             continue
@@ -713,7 +713,7 @@ C***********************************************************************
 C calculate least-squares quantities
         do 30 j=1,r
            do 20 k=j,r
-              sum=dfloat(0)
+              sum=0d0
               do 10 m=1,ncells
                  sum=sum+design(m,j)*design(m,k)*t3(m)
  10           continue
@@ -723,14 +723,14 @@ C calculate least-squares quantities
         call invsym(r,psir,npsir,wk,mcr)
         do 100 h=1,r
            do 60 mi=1,ncells
-              sum=dfloat(0)
+              sum=0d0
               do 50 j=1,r
                  sum=sum+wk(psir(h,j))*design(mi,j)
  50           continue
               wkd(mi)=sum
  60        continue
            do 90 k=1,q
-              sum=dfloat(0)
+              sum=0d0
               do 80 mi=1,ncells
                  sum=sum+wkd(mi)*t2(k,mi)
  80           continue
@@ -739,14 +739,14 @@ C calculate least-squares quantities
  100    continue
         do 150 j=1,q
            do 110 h=1,r
-              sum=dfloat(0)
+              sum=0d0
               do 105 m=1,ncells
                  sum=sum+t2(j,m)*design(m,h)
  105          continue
               wkr(h)=sum
  110       continue
            do 140 k=j,q
-              sum=dfloat(0)
+              sum=0d0
               do 120 h=1,r
                  sum=sum+wkr(h)*beta(h,k)
  120          continue
@@ -757,21 +757,21 @@ C draw sigma
         do 155 j=1,q
            mcz(j)=j
  155    continue
-        df=dfloat(n-r)
+        df=dble(n-r)
         call cholsm(npsi,t1,q,psi,mcz,q)
         call bfacm(npsi,chf,q,psi,df)
         call invtrm(npsi,chf,q,psi)
         call mmnm(npsi,chf,t1,q,psi,mx)
         do 200 i=1,q
            do 190 j=i,q
-              sum=dfloat(0)
+              sum=0d0
               do 185 k=1,q
                  sum=sum+mx(k,i)*mx(k,j)
  185          continue
               sigma(psi(i,j))=sum
  190       continue
  200    continue
-C draw beta      
+C draw beta
         do 251 j=1,npsi
            chf(j)=sigma(j)
  251    continue
@@ -779,7 +779,7 @@ C draw beta
         call cholsm(npsir,wk,r,psir,mcr,r)
         do 300 j=1,q
            do 260 k=1,r
-              wkr(k)=dfloat(0)
+              wkr(k)=0d0
  260       continue
            do 270 k=1,r
               zz=dble(gauss())
@@ -796,7 +796,7 @@ C draw beta
 C calculate mu from beta
         do 400 m=1,ncells
            do 340 j=1,q
-              sum=dfloat(0)
+              sum=0d0
               do 335 i=1,r
                  sum=sum+design(m,i)*beta(i,j)
  335          continue
@@ -865,7 +865,7 @@ C find number of marginal tables to be fit
         end
 C************************************************************************
         subroutine gtmarg(ncon,con,posn,p,marg,nmarg)
-C extract the next set of margins to be fit, store them in the first 
+C extract the next set of margins to be fit, store them in the first
 C nmarg elements of marg. For first set, posn should be 0.
         integer ncon,con(ncon),p,marg(p),nmarg,posn
 1       continue
@@ -931,7 +931,7 @@ C to the margins of table. Margins to be fit are specified in con.
               call initc(p,c,rest,nrest)
               if(sumf.ne.0)then
                  mrest=0
-                 do 80 in=1,drest   
+                 do 80 in=1,drest
                     if(in.ne.1)then
                        call advc(p,c,d,rest,nrest)
                        call gtmmis(p,c,rest,nrest,jmp,mrest)
@@ -940,7 +940,7 @@ C to the margins of table. Margins to be fit are specified in con.
                     if(fit(m).ge.eps) then
                        fit(m)=fit(m)*(sumt/sumf)
                     else
-                       fit(m)=dfloat(0)
+                       fit(m)=0d0
                     endif
 80               continue
               endif
@@ -954,7 +954,7 @@ C************************************************************************
 C Performs one cycle of Bayesian ipf. Cell counts are in table
 C and starting value in theta.  Prior hyperparameters are in prior,
 C with structural zeros denoted by -999. Replaces theta with an
-C updated value. 
+C updated value.
         integer ncells,ncon,con(ncon),p,d(p),jmp(p),c(p),marg(p)
         integer rest(p),nmarg,nrest,m,mmarg,mrest,posn,ntab,tabno
         integer out,in,dmarg,drest,err,zflag
@@ -964,7 +964,7 @@ C updated value.
         err=0
         posn=0
         do 100 tabno=1,ntab
-           sum3=dfloat(0)
+           sum3=0d0
            call gtmarg(ncon,con,posn,p,marg,nmarg)
            call gtrest(p,marg,nmarg,rest,nrest)
            call gtdmis(p,d,marg,nmarg,dmarg)
@@ -990,7 +990,7 @@ C updated value.
                  sum3=sum3+g
               endif
               mrest=0
-              do 80 in=1,drest   
+              do 80 in=1,drest
                  if(in.ne.1)then
                     call advc(p,c,d,rest,nrest)
                     call gtmmis(p,c,rest,nrest,jmp,mrest)
@@ -1035,8 +1035,8 @@ C************************************************************************
         double precision sum1,sum2,table1(ncells),table2(ncells),
      /    prior(ncells)
         call initc(p,c,mc,nmc)
-        sum1=dfloat(0)
-        sum2=dfloat(0)
+        sum1=0d0
+        sum2=0d0
         mmis=0
         do 1 i=1,dmis
            if(i.ne.1)then
@@ -1045,7 +1045,7 @@ C************************************************************************
            endif
            m=mobs+mmis
            sum2=sum2+table2(m)
-           if(prior(m).ne.dfloat(-999)) then
+           if(prior(m).ne.dble(-999)) then
               sum1=sum1+table1(m)+prior(m)
               zflag=1
            endif
@@ -1096,7 +1096,7 @@ C***********************************************************************
               call gtmmis(p,c,mcw,nmcw,jmp,mmis)
            endif
            m=mobs+mmis
-           if(theta(m).ne.-999.0)then
+           if(theta(m).ne.-999.0d0)then
               t3(m)=t3(m)+theta(m)
               do 20 j=1,nmcz
                  sum=mu(mcz(j),m)
@@ -1127,14 +1127,14 @@ C***********************************************************************
 C***********************************************************************
         subroutine gtprob(q,ncells,mu,pii,n,z,i,p,mcw,nmcw,c,d,jmp,
      /       dmis,mobs,ocz,nocz,theta)
-C Calculates cell probs corresponding to observation i in z, storing 
+C Calculates cell probs corresponding to observation i in z, storing
 C the result in theta. For structural zeros, theta is set to -999.0.
         integer i,q,ncells,n,p,mcw(p),nmcw,d(p),jmp(p),dmis,mobs
         integer mmis,m,a,ocz(q),nocz,c(p)
         double precision mu(q,ncells),pii(ncells),sum,theta(ncells)
         double precision z(n,q)
         call initc(p,c,mcw,nmcw)
-        sum=dfloat(0)
+        sum=0d0
         mmis=0
         do 30 a=1,dmis
            if(a.ne.1)then
@@ -1143,8 +1143,8 @@ C the result in theta. For structural zeros, theta is set to -999.0.
            endif
            m=mobs+mmis
            theta(m)=pii(m)
-           if(theta(m).ne.-999.0)then
-              theta(m)=0.5*theta(m)
+           if(theta(m).ne.-999.0d0)then
+              theta(m)=0.5d0*theta(m)
               do 20 j=1,nocz
                  theta(m)=theta(m)+mu(ocz(j),m)*z(i,ocz(j))
 20            continue
@@ -1160,7 +1160,7 @@ C the result in theta. For structural zeros, theta is set to -999.0.
               call gtmmis(p,c,mcw,nmcw,jmp,mmis)
            endif
            m=mobs+mmis
-           if(theta(m).ne.-999.0) theta(m)=theta(m)/sum
+           if(theta(m).ne.-999.0d0) theta(m)=theta(m)/sum
 40      continue
         return
         end
@@ -1176,9 +1176,9 @@ C************************************************************************
         double precision z(n,q)
         double precision sigma(npsi),mu(q,ncells),pii(ncells)
         double precision ll,l2,l3,logdet
-        l2=dfloat(0)
-        l3=dfloat(0)
-        logdet=dfloat(0)
+        l2=0d0
+        l3=0d0
+        logdet=0d0
         pattw=0
         grpno=0
         do 200 pattz=1,npattz
@@ -1197,11 +1197,11 @@ C************************************************************************
      /                   n,z,i,p,mcw,nmcw,c,d,jmp,dmis,
      /                   mobs(grpno),ocz,nocz,mcz,nmcz,l3)
 150              continue
-                 l2=l2+logdet*dfloat(nmobs(grpno))
+                 l2=l2+logdet*dble(nmobs(grpno))
 170           continue
 180        continue
 200     continue
-        ll=-(l2/dfloat(2))+l3
+        ll=-(l2/2d0)+l3
         return
         end
 C************************************************************************
@@ -1212,7 +1212,7 @@ C************************************************************************
         double precision sigma(npsi),mu(q,ncells),pii(ncells)
         double precision sum,l3,qf,lsum
         double precision z(n,q)
-        lsum=dfloat(0)
+        lsum=0d0
         call initc(p,c,mcw,nmcw)
         mmis=0
         do 200 a=1,dmis
@@ -1222,16 +1222,16 @@ C************************************************************************
            endif
            m=mobs+mmis
            if(pii(m).gt.0)then
-              qf=dfloat(0)
+              qf=0d0
               do 20 j=1,nocz
-                 sum=dfloat(0)
+                 sum=0d0
                  do 10 k=1,nocz
                     sum=sum+sigma(psi(ocz(j),ocz(k)))*
      /                   (z(i,ocz(k))-mu(ocz(k),m))
 10               continue
                  qf=qf+sum*(z(i,ocz(j))-mu(ocz(j),m))
 20            continue
-              lsum=lsum+pii(m)*exp(qf/dfloat(2))
+              lsum=lsum+pii(m)*exp(qf/2d0)
            endif
 200     continue
         l3=l3+dlog(lsum)
@@ -1252,8 +1252,8 @@ C Extracts submatrix of theta corresponding to the columns of mc
 C************************************************************************
         real function rangen(init)
         integer a,p,ix,b15,b16,xhi,xalo,leftflo,fhi,k,init
-        data a/16807/,b15/32768/,b16/65536/,p/2147483647/
         save ix
+        data a/16807/,b15/32768/,b16/65536/,p/2147483647/
         if(init.ne.0) ix=init
         if(ix.eq.0) call rexit('rngseed has not been called')
         xhi=ix/b16
@@ -1282,7 +1282,7 @@ C Generates a chisquare deviate with df degrees of freedom
         end
 C***********************************************************************
         real function gamm(a)
-C Generates a random gamma(a) deviate. If a>=1, uses the method of 
+C Generates a random gamma(a) deviate. If a>=1, uses the method of
 C Fishman (1976); if 0<a<1, the method of Ahrens (1974)
         real a,u,y,q,e,b,p,u1
         data e/2.718282/
@@ -1302,7 +1302,6 @@ C Fishman (1976); if 0<a<1, the method of Ahrens (1974)
            b=(e+a)/e
            p=b*u
            if(p.gt.1) goto 4
-3          continue
            x=p**(1/a)
            u1=rangen(0)
            if(u1.gt.(e**(-x)))then

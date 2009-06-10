@@ -1,0 +1,27 @@
+Version 1.0.7  2009-06-10
+
+	Tidy up Fortran based on ftncheck
+	Change License: field
+
+Version 1.0-6  2007-06-15
+
+	add NAMESPACE
+	coerce 'x' to matrix
+	use lazydata
+
+Version 1.0-5  2006-09-05
+
+	Improve error messages
+
+Version 1.0-4  2003-11-05
+
+	T -> TRUE in documentation of usages
+
+Version 1.0-3  2003-05-25
+
+	'junk' should be double precision
+
+Version 1.0-2  2003-04-10
+
+	Initial release to CRAN
+
