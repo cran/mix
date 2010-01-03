@@ -15,7 +15,7 @@ imp.mix(s, theta, x)
 \arguments{
 \item{s}{
   summary list of an incomplete data matrix \code{x} created by the
-  function \code{\code{prelim.mix}}.
+  function \code{prelim.mix}.
 }
 \item{theta}{
   value of the parameter under which the missing data are to be
