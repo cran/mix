@@ -5,7 +5,7 @@ rngseed <- function(seed)
 {
     seed <- as.integer(seed)
     if(seed<=0)stop("'seed' must be a positive integer")
-    tmp <- .Fortran("rngs",seed, PACKAGE="mix")
+    .Fortran("rngs", seed, PACKAGE = "mix")
     invisible()
 }
 #*************************************************************************

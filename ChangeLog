@@ -1,3 +1,12 @@
+Version 1.0.9  2015-06-29
+
+	remove unused assignments
+	tweak NAMESPACE imports
+
+Version 1.0.8  2010-01-03
+
+	correct mix/man/imp.mix.Rd
+
 Version 1.0.7  2009-06-10
 
 	Tidy up Fortran based on ftncheck
