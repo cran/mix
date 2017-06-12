@@ -1,9 +1,9 @@
 9e045593bb1a10e3e94750f9df1f20d9 *ChangeLog
-58d7016a1aa4b87fd4e6ee07239932a1 *DESCRIPTION
+43567648cf7a17f89bfd663b3937da39 *DESCRIPTION
 f5466347a41a87778f3a2fca9755dbdf *INDEX
 117390fd79cd902f09d665f63630fcb3 *NAMESPACE
 b26280824b28e9c81fd6764fb853e3d6 *R/mix.R
-2ddf4c2bf6957fee3607a8165042325b *data/stlouis.rda
+58c954a296c7fe95aab938dfd33e88ee *data/stlouis.rda
 4f941e3e3e4571183a791d7423ec54f2 *man/da.mix.Rd
 a7c7990ee4ba243485310aab5a844fe5 *man/dabipf.mix.Rd
 47c7189d38dfc13146ba72ecca247692 *man/ecm.mix.Rd
@@ -15,5 +15,6 @@ d95b1ff37f73eb9b269f37c1475de169 *man/mi.inference.Rd
 4f480ee0992feb536a563f44ea7db8bd *man/prelim.mix.Rd
 358da05edecec7053ad8de3581f064e7 *man/rngseed.Rd
 16f16325ef19e7bdb7da3344b702052d *man/stlouis.Rd
+44ac8a73d84b121ab0d2ca06959295e5 *src/init.c
 e8f8ace81cf487976578a9672221b45e *src/mix.f
 316c70edf80f842eb60d2a14c42bb430 *tests/mix.R
