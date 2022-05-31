@@ -61,7 +61,7 @@ em.mix(s, start, prior=1, maxits=1000, showits=TRUE, eps=0.0001)
 }
 \references{
   Schafer, J. L. (1996) \emph{Analysis of Incomplete Multivariate Data.}
-  Chapman \& Hall, Chapter 9.
+  Chapman & Hall, Chapter 9.
 }
 \seealso{
   \code{\link{prelim.mix}}, \code{\link{getparam.mix}},

@@ -69,7 +69,7 @@ mi.inference(est, std.err, confidence=0.95)
     Surveys.} Wiley.
 
   Schafer, J. L. (1996) \emph{Analysis of Incomplete Multivariate Data.}
-  Chapman \& Hall.
+  Chapman & Hall.
 }
 \keyword{models}
 % Converted by Sd2Rd version 1.21.

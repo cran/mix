@@ -31,6 +31,6 @@
   values. \emph{Biometrika}, \bold{72}, 492--512.
 
   Schafer, J. L. (1996) \emph{Analysis of Incomplete Multivariate Data.}
-  Chapman \& Hall. pp. 359--367.
+  Chapman & Hall. pp. 359--367.
 }
 \keyword{datasets}

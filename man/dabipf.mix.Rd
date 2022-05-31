@@ -85,7 +85,7 @@ dabipf.mix(s, margins, design, start, steps=1, prior=0.5,
 }
 \references{
   Schafer, J. L. (1996) \emph{Analysis of Incomplete Multivariate Data.}
-  Chapman \& Hall, Chapter 9.
+  Chapman & Hall, Chapter 9.
 }
 \seealso{
   \code{\link{prelim.mix}}, \code{\link{getparam.mix}},

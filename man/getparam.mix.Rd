@@ -70,7 +70,7 @@ getparam.mix(s, theta, corr=FALSE)
 }
 \references{
   Schafer, J. L. (1996) \emph{Analysis of Incomplete Multivariate Data.}
-  Chapman \& Hall, Chapter 9.
+  Chapman & Hall, Chapter 9.
 }
 \seealso{
   \code{\link{prelim.mix}}, \code{\link{em.mix}}, \code{\link{ecm.mix}},
