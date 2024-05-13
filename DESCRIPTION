@@ -1,6 +1,6 @@
 Package: mix
-Version: 1.0-11
-Date: 2022-05-31
+Version: 1.0-12
+Date: 2024-05-13
 Title: Estimation/Multiple Imputation for Mixed Categorical and
         Continuous Data
 Author: Original by Joseph L. Schafer <jls@stat.psu.edu>. 
@@ -11,6 +11,6 @@ Description: Estimation/multiple imputation programs for mixed categorical
 License: Unlimited
 LazyData: yes
 NeedsCompilation: yes
-Packaged: 2022-05-31 10:41:41 UTC; ripley
+Packaged: 2024-05-13 13:28:02 UTC; ripley
 Repository: CRAN
-Date/Publication: 2022-05-31 10:54:22 UTC
+Date/Publication: 2024-05-13 14:25:34 UTC

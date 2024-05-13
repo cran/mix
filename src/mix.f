@@ -1,13 +1,13 @@
 C***********************************************************************
-	subroutine ctrsc(x,n,p,xbar,sdv,mvcode)
+      subroutine ctrsc(x,n,p,xbar,sdv,mvcode)
 C Centers and scales the data matrix so that the observed data in every
 C column have mean zero and variance one. If a column has zero variance
 C or less than 2 observations then the data are centered (set equal
 C to zero)
-	integer n,p,count
+      integer n,p,count
         double precision x(n,p),mvcode
-	double precision xbar(p),sdv(p),sum1,sum2
-	do 10 j=1,p
+      double precision xbar(p),sdv(p),sum1,sum2
+      do j=1,p
            sum1=0
            sum2=0
            count=0
@@ -17,7 +17,7 @@ C to zero)
                  sum1=sum1+x(i,j)
                  sum2=sum2+x(i,j)**2
               endif
-5	   continue
+5        continue
            if(count.gt.0) then
               xbar(j)=sum1/count
               sdv(j)=sqrt((sum2-(sum1**2)/count)/count)
@@ -34,24 +34,24 @@ C to zero)
            else
               sdv(j)=1.d0
            endif
-10	continue
-	return
-	end
+      end do
+      return
+      end
 C***********************************************************************
         subroutine mkpsi(p,psi)
 C Generates a symmetric matrix of integers indicating the linear
 C position in packed storage of the matrix elements
         integer p,psi(0:p,0:p),posn
         posn=0
-        do 10 j=0,p
+        do j=0,p
            posn=posn+1
            psi(j,j)=posn
-           do 5 k=j+1,p
+           do k=j+1,p
               posn=posn+1
               psi(j,k)=posn
               psi(k,j)=posn
-5          continue
-10      continue
+           end do
+        end do
         return
         end
 C***********************************************************************
@@ -315,7 +315,7 @@ C***********************************************************************
 C converts t1, t2, t3 to ML estimates
         integer q,psi(q,q),npsi,ncells,m,n
         double precision t1(npsi),t2(q,ncells),t3(ncells),sum
-	double precision prior(ncells)
+      double precision prior(ncells)
         do 30 j=1,q
            do 20 k=j,q
               sum=0.0d0
@@ -325,18 +325,18 @@ C converts t1, t2, t3 to ML estimates
               t1(psi(j,k))=(t1(psi(j,k))-sum)/dble(n)
 20         continue
 30      continue
-	sum=0d0
+      sum=0d0
         do 50 m=1,ncells
-	   if(prior(m).ne.-999.0d0) sum=sum+t3(m)+prior(m)-1d0
+         if(prior(m).ne.-999.0d0) sum=sum+t3(m)+prior(m)-1d0
            if(t3(m).ne.0)then
               do 40 j=1,q
                  t2(j,m)=t2(j,m)/t3(m)
 40            continue
            endif
 50      continue
-	do 60 m=1,ncells
-	   if(prior(m).ne.-999.0d0) t3(m)=(t3(m)+prior(m)-1d0)/sum
- 60	continue
+      do 60 m=1,ncells
+         if(prior(m).ne.-999.0d0) t3(m)=(t3(m)+prior(m)-1d0)/sum
+ 60   continue
         return
         end
 C***********************************************************************
@@ -614,10 +614,10 @@ C both in packed storage, and puts result into m which is unpacked
         integer d,p,psi(p,p)
         double precision l(d),u(d),sum,m(p,p)
         do 10 i=1,p
-	   do 5 j=1,p
-	     sum=0
+         do 5 j=1,p
+           sum=0
              do 2 k=1,min(i,j)
-	        sum=sum+l(psi(i,k))*u(psi(k,j))
+              sum=sum+l(psi(i,k))*u(psi(k,j))
 2            continue
              m(i,j)=sum
 5          continue
@@ -625,25 +625,25 @@ C both in packed storage, and puts result into m which is unpacked
         return
         end
 C***********************************************************************
-	subroutine cholsm(d,theta,p,psi,mc,nmc)
-	integer d,p,psi(p,p),mc(p),nmc
-	double precision theta(d),tmp
-	do 40 i=1,nmc
-	  tmp=0.0d0
-	  do 10 k=1,i-1
-	    tmp=tmp+theta(psi(mc(k),mc(i)))**2
-10	  continue
-	  theta(psi(mc(i),mc(i)))=sqrt(theta(psi(mc(i),mc(i)))-tmp)
-	  do 30 j=i+1,nmc
-	    tmp=0.d0
-	    do 20 k=1,i-1
-	      tmp=tmp+theta(psi(mc(k),mc(i)))*theta(psi(mc(k),mc(j)))
-20	    continue
-	    theta(psi(mc(i),mc(j)))=(theta(psi(mc(i),mc(j)))-tmp)
+      subroutine cholsm(d,theta,p,psi,mc,nmc)
+      integer d,p,psi(p,p),mc(p),nmc
+      double precision theta(d),tmp
+      do 40 i=1,nmc
+        tmp=0.0d0
+        do 10 k=1,i-1
+          tmp=tmp+theta(psi(mc(k),mc(i)))**2
+10      continue
+        theta(psi(mc(i),mc(i)))=sqrt(theta(psi(mc(i),mc(i)))-tmp)
+        do 30 j=i+1,nmc
+          tmp=0.d0
+          do 20 k=1,i-1
+            tmp=tmp+theta(psi(mc(k),mc(i)))*theta(psi(mc(k),mc(j)))
+20        continue
+          theta(psi(mc(i),mc(j)))=(theta(psi(mc(i),mc(j)))-tmp)
      /             /theta(psi(mc(i),mc(i)))
-30	  continue
-40	continue
-	end
+30      continue
+40    continue
+      end
 C***********************************************************************
         subroutine invtrm(npsi,t,q,psi)
 C Inverts triangular matrix in packed storage
@@ -689,11 +689,11 @@ C draws triangular square-root of a Wishart(m,I) using Bartlett
 C decomposition, putting result into packed storage
         integer npsi,q,psi(q,q)
         double precision b(npsi),m
-	do 10 j=1,q
-	   b(psi(j,j))=dble(sqrt(2.*gamm((sngl(m)-float(j)+1.)/2.)))
+      do 10 j=1,q
+         b(psi(j,j))=dble(sqrt(2.*gamm((sngl(m)-float(j)+1.)/2.)))
 10      continue
         do 30 j=1,q-1
-	   do 20 k=j+1,q
+         do 20 k=j+1,q
              b(psi(j,k))=dble(gauss())
 20         continue
 30      continue
@@ -1325,21 +1325,21 @@ C Fishman (1976); if 0<a<1, the method of Ahrens (1974)
         end
 C***********************************************************************
         real function gauss()
-	integer alt
-	real next
+      integer alt
+      real next
         save alt,next
-	data pi/3.141593/
+      data pi/3.141593/
         if((alt.ne.0).and.(alt.ne.1)) alt=0
-	if(alt.eq.0)then
-	  u1=rangen(0)
-	  u2=rangen(0)
-	  gauss=sqrt(-2*log(u1))*cos(2*pi*u2)
-	  next=sqrt(-2*log(u1))*sin(2*pi*u2)
-	  alt=1
-	else
-	  gauss=next
-	  alt=0
-	endif
-	return
-	end
+      if(alt.eq.0)then
+        u1=rangen(0)
+        u2=rangen(0)
+        gauss=sqrt(-2*log(u1))*cos(2*pi*u2)
+        next=sqrt(-2*log(u1))*sin(2*pi*u2)
+        alt=1
+      else
+        gauss=next
+        alt=0
+      endif
+      return
+      end
 C***********************************************************************
